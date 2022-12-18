@@ -7,8 +7,9 @@ import com.Math.Bot.Main.Utils.Editable.TextBox.SelectableTextBoxes.DisplayableT
 import java.util.ArrayList;
 import java.util.Collections;
 
+// Optimized Stage 3
 public class EditableHandler {
-    private static BotPanel bp = BotPanel.bp;
+    private static final BotPanel bp = BotPanel.bp;
 
     public static ScreenTextBox[] getTextBoxes() {
         return textBoxes;

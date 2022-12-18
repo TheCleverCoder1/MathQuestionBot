@@ -36,25 +36,22 @@ public class Debugger {
 
     // Debug States
     private byte cDebugState;
-    public final byte numOfDebugStates = 2;
-    public final byte INFO_DEBUG_STATE = 0;
-    public final byte EDIT_DEBUG_STATE = 1;
+    public static final byte numOfDebugStates = 2;
+    public static final byte INFO_DEBUG_STATE = 0;
+    public static final byte EDIT_DEBUG_STATE = 1;
 
     // Debug Items
     public static final byte BUTTON = 0;
     public static final byte TEXT_BOX = 1;
 
     // BotPanel and Graphics2D and KeyHandler
-    private final BotPanel bp;
-    private final Graphics2D g;
-    private final KeyHandler kh;
+    private final BotPanel bp = BotPanel.bp;
+    private Graphics2D g = Sprite.g;
+    private final KeyHandler kh = bp.kh;
 
     private Image[] debugIcons;
 
     public Debugger(){
-        this.bp = BotPanel.bp;
-        this.g = Sprite.g;
-        kh = bp.kh;
         init();
     }
 
@@ -88,6 +85,7 @@ public class Debugger {
     // Drawing Debug
     private void drawDebugMode(){
         // Drawing Debug things
+        g = Sprite.g;
         g.setFont(FontHandler.getFonts()[0].deriveFont(15f));
         g.setColor(Color.BLACK);
         g.drawString("Debug: " + Util.boolToString(bp.debug), 10, 30);
@@ -95,6 +93,7 @@ public class Debugger {
             g.drawString("Debug Mode: " + getDebugStateName(), 10, 60);
     }
     public void draw(){
+        g = Sprite.g;
         if (bp.debug){
             if (cDebugState == INFO_DEBUG_STATE) drawDebugInformation();
             popUpMenu.draw();
@@ -121,6 +120,7 @@ public class Debugger {
         }
     }
     private void drawDebugModeSwitchingIcons(){
+
         blurScreenWhite();
         drawDebugIcons();
     }

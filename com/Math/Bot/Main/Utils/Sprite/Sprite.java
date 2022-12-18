@@ -4,7 +4,7 @@ import com.Math.Bot.Main.Utils.ImageHandler.ImageHandler;
 
 import java.awt.*;
 
-// Optimized Stage 2
+// Optimized Stage 3
 public class Sprite {
     // Some Stuff
     private Image img;
@@ -59,7 +59,7 @@ public class Sprite {
 
     // The method
     public void draw(){
-        if (img != null)
-            g.drawImage(img, posX, posY, null);
+        if (img == null) return;
+        g.drawImage(img, posX, posY, null);
     }
 }

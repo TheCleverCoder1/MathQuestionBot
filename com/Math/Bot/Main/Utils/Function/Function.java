@@ -1,6 +1,6 @@
 package com.Math.Bot.Main.Utils.Function;
 
-// Optimized Stage 2
+// Optimized Stage 3
 public abstract class Function {
     public abstract void func();
 }

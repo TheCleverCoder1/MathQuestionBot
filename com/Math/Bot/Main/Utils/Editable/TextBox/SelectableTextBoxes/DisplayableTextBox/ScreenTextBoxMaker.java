@@ -2,12 +2,12 @@ package com.Math.Bot.Main.Utils.Editable.TextBox.SelectableTextBoxes.Displayable
 
 import com.Math.Bot.Main.BotPanel;
 import com.Math.Bot.Main.Utils.Color.ColorManager;
-import com.Math.Bot.Main.Utils.Editable.TextBox.SelectableTextBoxes.DisplayableTextBox.ScreenTextBox;
 import com.Math.Bot.Main.Utils.FontHandler.FontHandler;
 import com.Math.Bot.Main.Utils.TextHandler.TextHandler;
 
 import java.awt.*;
 
+// Optimized Stage 3
 public class ScreenTextBoxMaker {
     private static ScreenTextBox makeScreenTextBox(String[] info){
         if (info.length != TextHandler.lengthOfScreenTextBoxInformation)

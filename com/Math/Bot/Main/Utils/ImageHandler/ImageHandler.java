@@ -1,6 +1,7 @@
 package com.Math.Bot.Main.Utils.ImageHandler;
 
 import com.Math.Bot.Main.BotPanel;
+import com.Math.Bot.Main.Debugger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-// Optimized Stage 2
+// Optimized Stage 3
 public class ImageHandler {
     // Images
     private static Image Logo;
@@ -26,14 +27,8 @@ public class ImageHandler {
     // PathToRes
     public static final String PathToRes = "D:/java codes/MathQuestionBot/src/com/Math/Bot/Main/Utils/ImageHandler/Res";
 
-    // BotPanel
-    private static BotPanel bp;
-
     // Initializing
     public static void LoadImages(){
-        // Initializing BP
-        ImageHandler.bp = BotPanel.bp;
-
         // Loading Images
         {
         Logo = LoadImageAtPath(PathToRes + "/MathBotTitle.png");
@@ -51,13 +46,13 @@ public class ImageHandler {
             AlgebraSolverButton = LoadImageAtPath(PathToRes + "/AlgebraSolverButton.png");
         } // (2-6) Loading something related to the title
         {
-            DebugIcons = new Image[bp.debugger.numOfDebugStates];
+            DebugIcons = new Image[Debugger.numOfDebugStates];
             String[] icons = {
                     PathToRes + "/InfoModeDebug.png",
                     PathToRes + "/EditModeDebug.png"
             };
 
-            for (byte idx = 0; idx < bp.debugger.numOfDebugStates; idx++)
+            for (byte idx = 0; idx < Debugger.numOfDebugStates; idx++)
                 DebugIcons[idx] = LoadImageAtPath(icons[idx]);
 
             // Scaling every image by 0.7
@@ -97,8 +92,7 @@ public class ImageHandler {
         return img == null ? null : img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
     public static Image SubImage(Image img, short x, short y, short width, short height){
-        BufferedImage bImg = (BufferedImage) img;
-        return bImg.getSubimage(x, y, width, height);
+        return ((BufferedImage) img).getSubimage(x, y, width, height);
     }
 
     // Get Functions

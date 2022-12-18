@@ -9,7 +9,7 @@ import com.Math.Bot.Main.Utils.Util;
 import java.awt.*;
 import java.util.Arrays;
 
-// Optimized Stage 2
+// Optimized Stage 3
 public abstract class DisplayableTextBox extends SelectionTextBox {
     // Display Modes
     public static final byte LIGHT_MODE = 1;
@@ -26,13 +26,7 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
     public boolean justSelectedWord = false;
 
     // Font
-    private Font font;
-    protected FontMetrics metrics;
     protected Text displayableText;
-    protected float fontSize;
-    protected short fontHeight;
-    private short baseLineHeight;
-    protected Sprite coveringSprite;
 
     // Text Positions
     protected short textX, textY;
@@ -54,8 +48,6 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
             throw new IllegalArgumentException("DisplayMode should be 1 or 0 it couldn't be: " + displayMode);
         this.bp = bp;
         this.pos = pos;
-        this.fontSize = fontSize;
-        this.font = font.deriveFont(fontSize);
         this.displayMode = displayMode;
         displayableText = new Text(text, font, fontSize, isPassword, fontColor);
         initialize();
@@ -64,10 +56,7 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
     // Initialize
     protected abstract void initialize();
     protected void initializeUsingGraphics(){
-        Graphics2D g = Sprite.g;
-        metrics = g.getFontMetrics(font);
-        fontHeight = (short) metrics.getHeight();
-        baseLineHeight = (short) (metrics.getAscent() - (fontSize * 0.5));
+        displayableText.initializeMetrics(Sprite.g);
     }
 
     // Changing Cursor by Mouse
@@ -129,16 +118,16 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
     }
 
     private int getTextWidth(int startingIdx, int endingIdx){
-        return metrics.stringWidth(text.substring(startingIdx, endingIdx));
+        return displayableText.getMetrics().stringWidth(text.substring(startingIdx, endingIdx));
     }
     private int getTextWidth(int startingIdx){
-        return metrics.stringWidth(text.substring(startingIdx));
+        return displayableText.getMetrics().stringWidth(text.substring(startingIdx));
     }
     private int getTextWidth(){
-        return metrics.stringWidth(getText());
+        return displayableText.getMetrics().stringWidth(getText());
     }
     private int getTextWidth(String str) {
-        return metrics.stringWidth(str);
+        return displayableText.getMetrics().stringWidth(str);
     }
 
     // Related to Selection
@@ -182,7 +171,7 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
     }
 
     @Override public void draw() {
-        if (fontHeight == 0)
+        if (displayableText.getFontHeight() == 0)
             initializeUsingGraphics();
 
         // Drawing
@@ -204,7 +193,7 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
 
                 Graphics2D g = Sprite.g;
                 g.setColor(new Color(20, 200, 250, 100));
-                g.fillRect(startingX, textY - baseLineHeight, width, baseLineHeight);
+                g.fillRect(startingX, (int) (textY - displayableText.getBaseLineHeight()), width, (int) displayableText.getBaseLineHeight());
             }
         }catch (Exception ignored){}
     }
@@ -217,9 +206,9 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
         if (!hide && couldWrite){
             Graphics2D g = Sprite.g;
             g.setColor(Color.BLACK);
-            g.setStroke(new BasicStroke(fontSize * 0.1f));
-            short offsetX = getCursorOffsetX(g);
-            g.drawLine(textX + offsetX - this.offsetX, textY - baseLineHeight, textX + offsetX - this.offsetX, textY);
+            g.setStroke(new BasicStroke(displayableText.getFontSize() * 0.1f));
+            short offsetX = getCursorOffsetX();
+            g.drawLine(textX + offsetX - this.offsetX, (int) (textY - displayableText.getBaseLineHeight()), textX + offsetX - this.offsetX, textY);
         }
     }
 
@@ -229,7 +218,7 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
             hide = !hide;
         }
     }
-    private short getCursorOffsetX(Graphics2D g){
+    private short getCursorOffsetX(){
         try{
             return (short) getTextWidth(startViewableIdx, cursorIdx);
         }catch(Exception e){

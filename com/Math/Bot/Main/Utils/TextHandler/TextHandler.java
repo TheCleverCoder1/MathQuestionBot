@@ -4,10 +4,9 @@ import com.Math.Bot.Main.BotPanel;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
-// Optimized Stage 2
+// Optimized Stage 3
 public class TextHandler {
     // BotPanel
     public static BotPanel bp;

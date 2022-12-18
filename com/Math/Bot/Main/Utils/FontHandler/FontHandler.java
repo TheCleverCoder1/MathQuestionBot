@@ -1,18 +1,12 @@
 package com.Math.Bot.Main.Utils.FontHandler;
 
-import com.Math.Bot.Main.BotPanel;
-import com.Math.Bot.Main.Utils.TextHandler.TextHandler;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-// Optimized Stage 2
+// Optimized Stage 3
 public class FontHandler {
-    private static BotPanel bp;
-
     // PathToFont
     public static final String PathToFont = "D:/java codes/MathQuestionBot/src/com/Math/Bot/Main/Utils/FontHandler/Fonts";
 
@@ -21,11 +15,7 @@ public class FontHandler {
 
     // Initializing
     public static void init(){
-        // Initializing BotPanel
-        bp = TextHandler.bp;
-
-        ArrayList<Font> fontArrayList = loadFonts();
-        convertArrayListToArray(fontArrayList);
+        convertArrayListToArray(loadFonts());
     }
     private static ArrayList<Font> loadFonts(){
         ArrayList<Font> fontArrayList = new ArrayList<>();
@@ -49,8 +39,10 @@ public class FontHandler {
     }
 
     // Get Method
-    public static Font[] getFonts(){return fonts;}
-    public static Font getFontByTag(String tag){
+    public static Font[] getFonts() {
+        return fonts;
+    }
+    public static Font getFontByTag(String tag) {
         switch (tag.toLowerCase()){
             case "medium", "medium.ttf", "font1 medium", "font1-medium", "font1 medium.ttf", "font1-medium.ttf" -> {
                 return getFonts()[0];

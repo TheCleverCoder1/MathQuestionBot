@@ -13,9 +13,9 @@ import com.Math.Bot.Main.Utils.Util;
 import java.awt.*;
 import java.util.Arrays;
 
-// Optimized Stage 2
+// Optimized Stage 3
 public class PopUpMenu {
-    private BotPanel bp;
+    private final BotPanel bp = BotPanel.bp;
 
     // Position and some raw stuff
     public short x = 0;
@@ -36,7 +36,6 @@ public class PopUpMenu {
 
     // Constructor
     public PopUpMenu() {
-        this.bp = BotPanel.bp;
         init();
     }
 
@@ -55,28 +54,19 @@ public class PopUpMenu {
         } // Loading some stuff
         {
             // The first button "CREATE NEW ITEM"
-            buttons[0][0] = new Button(bp, new ButtonFunction() {
-                @Override
-                public void onClick() {
-                }
-
-                @Override
-                public void onHover() {
+            buttons[0][0] = new Button(new ButtonFunction() {
+                @Override public void onClick() {}
+                @Override public void onHover() {
                     subMenu = true;
                     subMenuIdx = 0;
                 }
-
-                @Override
-                public void onExit() {
-
-                }
+                @Override public void onExit() {}
             },
-                    new short[]{-1000, -1000}, popUpImages[0], new String[]{}, ButtonMaker.RECTANGLE);
+                    new short[]{-1000, -1000}, popUpImages[0], ButtonMaker.RECTANGLE);
         } // Creating button in buttons[0][0]
         {
-            buttons[0][1] = new Button(bp, new ButtonFunction() {
-                @Override
-                public void onClick() {
+            buttons[0][1] = new Button(new ButtonFunction() {
+                @Override public void onClick() {
                     if (subMenu && subMenuRect != null && !create) {
                         create = true;
                         createIdx = Debugger.BUTTON;
@@ -84,18 +74,15 @@ public class PopUpMenu {
                     bp.mh.resetPopUpMenu();
                     bp.mh.resetPopUpSubMenu();
                 }
-
-                @Override
-                public void onHover() {
-                }
-
-                @Override
-                public void onExit() {
-
-                }
-            }, new short[]{-1000, -1000}, popUpImages[1], new String[]{}, ButtonMaker.RECTANGLE);
+                @Override public void onHover() {}
+                @Override public void onExit() {}
+            }, new short[]{-1000, -1000}, popUpImages[1], ButtonMaker.RECTANGLE);
         } // Creating button in buttons[0][1]
         makeRectangle();
+    }
+    public void setPos(short x, short y){
+        this.x = x;
+        this.y = y;
     }
 
     // Updates
@@ -103,12 +90,9 @@ public class PopUpMenu {
         rect = new Rectangle(x - 1, y - 1, widthOfButton + 2, (buttons.length * heightOfButton) + 2);
     }
     public boolean isNotCollidingWithRectangle(Point p){
-        if (rect != null) {
-            if (subMenuRect != null)
-                return !rect.contains(p) && !subMenuRect.contains(p);
-            else return !rect.contains(p);
-        }
-        return false;
+        if (rect == null) return false;
+        if (subMenuRect == null) return !rect.contains(p);
+        return !rect.contains(p) && !subMenuRect.contains(p);
     }
     public void update(){
         updateSubMenuRect();
@@ -119,23 +103,20 @@ public class PopUpMenu {
         updated = true;
     }
     private void updateSubMenuRect(){
-        if (subMenu && !(subMenuIdx >= buttons.length)){
-            if (subMenuIdx == 0){
-                subMenuRect = new Rectangle(rect.x + rect.width, y - 1, widthOfButton + 2, ((buttons[subMenuIdx].length - 1) * heightOfButton) + 2);
-            }
+        if (subMenu && subMenuIdx < buttons.length){
+            if (subMenuIdx != 0) return;
+            subMenuRect = new Rectangle(rect.x + rect.width, y - 1, widthOfButton + 2, ((buttons[subMenuIdx].length - 1) * heightOfButton) + 2);
         }
     }
     private void updateButtonPositions(){
         // Updating Positions
-        for (short idx = 0, y = this.y; idx < buttons.length; idx++, y += heightOfButton){
+        for (short idx = 0, y = this.y; idx < buttons.length; idx++, y += heightOfButton)
             buttons[idx][0].pos = new short[]{this.x, y};
-        }
 
-        if (subMenu){
-            for (short idx = 1, y = this.y; idx < buttons[subMenuIdx].length; idx++, y += heightOfButton){
-                buttons[subMenuIdx][idx].pos = new short[]{(short) (this.x + widthOfButton + 3), y};
-            }
-        }
+        if (!subMenu) return;
+
+        for (short idx = 1, y = this.y; idx < buttons[subMenuIdx].length; idx++, y += heightOfButton)
+            buttons[subMenuIdx][idx].pos = new short[]{(short) (this.x + widthOfButton + 3), y};
     }
 
     // Drawing Stuff
@@ -148,15 +129,9 @@ public class PopUpMenu {
     }
     private void drawButtons(){
         // Drawing Buttons
-        for (byte i = 0; i < buttons.length; i++){
-            if (i == subMenuIdx && subMenu){
-                for (Button button : buttons[i])
-                    button.draw();
-            }
-            else{
-                buttons[i][0].draw();
-            }
-        }
+        for (byte i = 0; i < buttons.length; i++)
+            if (i == subMenuIdx && subMenu) for (Button button : buttons[i]) button.draw();
+            else buttons[i][0].draw();
     }
     private void drawBorder(boolean isSubMenu){
         Graphics2D g = Sprite.g;

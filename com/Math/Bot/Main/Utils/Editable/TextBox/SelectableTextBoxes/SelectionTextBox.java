@@ -9,7 +9,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.io.PrintStream;
 
-// Optimized Stage 2
+// Optimized Stage 3
 public abstract class SelectionTextBox extends TextBox {
     // Selected Text
     public short selTextStartIdx = -2;
@@ -36,9 +36,8 @@ public abstract class SelectionTextBox extends TextBox {
 
     // Getters
     public String getSelectedText(){
-        if (isSelectedSomething())
-            return text.substring(selTextEndIdx > selTextStartIdx ? selTextStartIdx : selTextEndIdx, selTextEndIdx > selTextStartIdx ? selTextEndIdx : selTextStartIdx);;
-        return "";
+        if (!isSelectedSomething()) return "";
+        return text.substring(selTextEndIdx > selTextStartIdx ? selTextStartIdx : selTextEndIdx, selTextEndIdx > selTextStartIdx ? selTextEndIdx : selTextStartIdx);
     }
 
     // Selection Related Stuff
@@ -113,18 +112,15 @@ public abstract class SelectionTextBox extends TextBox {
 
     // Shifting Cursor
     protected void shiftCursor(boolean right, boolean selectIt){
-        if (!selectIt && isSelectedSomething())
-            resetSelected();
-        if (!isSelectedSomething() && selectIt)
-            selTextStartIdx = cursorIdx;
+        if (!selectIt && isSelectedSomething()) resetSelected();
+        if (!isSelectedSomething() && selectIt) selTextStartIdx = cursorIdx;
         super.shiftCursor(right);
         if (selectIt) selTextEndIdx = cursorIdx;
     }
     protected void shiftCursorByWord(boolean right, boolean selectIt){
-        if (!selectIt && isSelectedSomething())
-            resetSelected();
-        if (selectIt && !isSelectedSomething())
-            selTextStartIdx = cursorIdx;
+        if (!selectIt && isSelectedSomething()) resetSelected();
+        if (selectIt && !isSelectedSomething()) selTextStartIdx = cursorIdx;
         super.shiftCursorByWord(right);
-        if (selectIt) selTextEndIdx = cursorIdx;}
+        if (selectIt) selTextEndIdx = cursorIdx;
+    }
 }

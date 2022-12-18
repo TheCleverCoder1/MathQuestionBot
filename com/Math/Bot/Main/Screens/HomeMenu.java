@@ -13,7 +13,7 @@ import java.awt.*;
 // Optimized Stage 1
 public class HomeMenu implements Menu {
     // BotPanel
-    private BotPanel bp;
+    private final BotPanel bp = BotPanel.bp;
 
     // Images
     private Image Logo;
@@ -26,7 +26,6 @@ public class HomeMenu implements Menu {
     ScreenTextBox[] textBoxes;
 
     public HomeMenu(){
-        this.bp = BotPanel.bp;
         init();
     }
 

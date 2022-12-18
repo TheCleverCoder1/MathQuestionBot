@@ -2,7 +2,7 @@ package com.Math.Bot.Main.Utils;
 
 import java.util.Arrays;
 
-// Optimized Stage 2
+// Optimized Stage 3
 public class Util {
     public static String boolToString(boolean bool){
         return (bool ? "TRUE" : "FALSE");

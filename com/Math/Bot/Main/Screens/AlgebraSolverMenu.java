@@ -9,7 +9,7 @@ import com.Math.Bot.Main.Utils.Editable.TextBox.SelectableTextBoxes.DisplayableT
 // Optimized Stage 1
 public class AlgebraSolverMenu implements Menu {
     // BotPanel
-    private BotPanel bp;
+    private final BotPanel bp = BotPanel.bp;
 
     // Editables
     Button[] buttons;
@@ -17,7 +17,6 @@ public class AlgebraSolverMenu implements Menu {
 
     // Constructor
     public AlgebraSolverMenu(){
-        this.bp = BotPanel.bp;
         init();
     }
 
