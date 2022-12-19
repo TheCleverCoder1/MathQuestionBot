@@ -72,6 +72,7 @@ public class MouseHandler implements MouseListener, MouseWheelListener, MouseMot
             if (button != null) button.onClick();
 
         for (ScreenTextBox textBox : EditableHandler.getTextBoxes()){
+            if (textBox == null) continue;
             if (textBox == selectedTextBox) {
                 if (textBox.checkIfClicking(point)) textBox.setCursorOnPoint(point);
                 break;

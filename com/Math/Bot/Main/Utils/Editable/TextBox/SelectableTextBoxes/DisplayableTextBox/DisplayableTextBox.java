@@ -78,6 +78,7 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
     }
     public void setCursorOnPoint(Point p){
         if (!checkIfClicking(p)) return;
+        if (displayableText.getIsPassword()) return;
 
         // Checking if there is no words selected.
         if (!justSelectedWord) resetSelected();
@@ -87,6 +88,7 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
         cursorIdx = (byte) getCursorByDeltaX(deltaX);
     }
     public void selectWordAtPoint(Point p){
+        if (displayableText.getIsPassword()) return;
         if (!checkIfClicking(p)) return;
 
         final short deltaX = (short) (p.x - textX);
@@ -132,6 +134,7 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
 
     // Related to Selection
     public void selectText(Point point){
+        if (displayableText.getIsPassword()) return;
         // Getting the Selection Area
         Point startPoint = bp.mh.draggingStartPoint;
         if (startPoint.x - textX >= getTextWidth() || !checkIfClicking(startPoint)) return;
@@ -162,10 +165,12 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
 
     // Changing Cursor by KeyBoard
     public void shiftCursor(boolean right, boolean selectIt){
+        if (displayableText.getIsPassword()) return;
         super.shiftCursor(right, selectIt);
         resetCursor();
     }
     public void shiftCursorByWord(boolean right, boolean selectIt){
+        if (displayableText.getIsPassword()) return;
         super.shiftCursorByWord(right, selectIt);
         resetCursor();
     }
@@ -179,6 +184,7 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
             sprite.draw();
         drawText();
         drawSelectedTextBackground();
+        if (displayableText.getIsPassword() && !displayableText.getShowPassword()) return;
         drawCursor();
     }
     private void drawSelectedTextBackground(){
@@ -224,5 +230,10 @@ public abstract class DisplayableTextBox extends SelectionTextBox {
         }catch(Exception e){
             return 0;
         }
+    }
+
+    @Override public void removeWord(boolean isBackspace){
+        if (displayableText.getIsPassword()) return;
+        super.removeWord(isBackspace);
     }
 }

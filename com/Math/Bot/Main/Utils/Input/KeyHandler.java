@@ -41,7 +41,6 @@ public class KeyHandler implements KeyListener {
     // On Methods
     private void onPress(KeyEvent e){
         int code = e.getKeyCode();
-
         if (!bp.mh.isTextWriterSelected) {
             switch (code) {
                 case KeyEvent.VK_F9 -> {
@@ -66,8 +65,8 @@ public class KeyHandler implements KeyListener {
             else if (KeyEvent.VK_A == code) bp.mh.selectedTextBox.selectAll();
         }
         if (code == KeyEvent.VK_ENTER) {
-            bp.mh.resetSelectedTextBox();
             bp.mh.selectedTextBox.onEnter();
+            bp.mh.resetSelectedTextBox();
             return;
         }
         char Char = e.getKeyChar();
